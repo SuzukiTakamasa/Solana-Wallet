@@ -1,25 +1,28 @@
 import * as bip39 from 'bip39';
-import { Keypair } from '@solana/web.js';
+import { Keypair } from '@solana/web3.js';
 import { useState } from 'react';
 
-console.log('newAccount', newAccount.publicKey.toString());
 
 export default function GenerateWallet({ setAccount }) {
   //generate account keypair of Hierarchy Deterministic
-  const [mnemonic, setMnemonin] = useState(null);
+  const [mnemonic, setMnemonic] = useState(null);
 
-  const generatedMnemonic = bip39.generatedMnemonic();
-  const seed = bip39.mnemonicToSeedSync(generatedMnemonic).slice(0, 32);
-  const newAccount = Keypair.fromSeed(new Uint8Array(seed));
+  const generateWallet = () => {
+    const generatedMnemonic = bip39.generateMnemonic();
+    const seed = bip39.mnemonicToSeedSync(generatedMnemonic).slice(0, 32);
+    const newAccount = Keypair.fromSeed(new Uint8Array(seed));
 
-  setMnemonic(generatedMnemonic);
-  setAccount(newAccount);
+    console.log('newAccount', newAccount.publicKey.toString());
+
+    setMnemonic(generatedMnemonic);
+    setAccount(newAccount);
+  }
 
   return (
     <>
       <button
         className="p-2 my-6 text-white bg-indigo-500 focus:ring focus:ring-indigo-300 rounded-lg cursor-pointer"
-        onClick={GenerateWallet}
+        onClick={generateWallet}
       >
         Create a wallet
       </button>

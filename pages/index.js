@@ -1,8 +1,11 @@
 import React from 'react';
 
 import HeadComponent from '../components/Head';
+import GenerateWallet from '../components/GenerateWallet';
+import { useState } from 'react';
 
 export default function Home() {
+  const [account, setAccount] = useState(null);
   return (
     <div>
       <HeadComponent />
@@ -20,6 +23,14 @@ export default function Home() {
           <h3 className="p-2 border-dotted border-l-8 border-l-indigo-600">
             My Wallet
           </h3>
+          {account && (
+            <>
+              <div className="my-6 text-indigo-600" font-bold>
+                <span>Address: </span>
+                {account.publicKey.toString()}
+              </div>
+            </>
+          )}
         </div>
 
         <hr className="my-6" />
@@ -28,6 +39,7 @@ export default function Home() {
           <h2 className="p-2 border-dotted border-l-4 border-l-indigo-400">
             STEP1: ウォレットを新規作成する
           </h2>
+          <GenerateWallet setAccount={setAccount} />
         </div>
 
         <hr className="my-6" />
