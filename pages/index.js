@@ -2,6 +2,7 @@ import React from 'react';
 
 import HeadComponent from '../components/Head';
 import GenerateWallet from '../components/GenerateWallet';
+import ImportWallet from '../components/ImportWallet';
 import { useState } from 'react';
 
 export default function Home() {
@@ -48,6 +49,7 @@ export default function Home() {
           <h2 className="p-2 border-dotted border-l-4 border-l-indigo-400">
             STEP2: 既存のウォレットをインポートする
           </h2>
+          <ImportWallet setAccount={setAccount} />
         </div>
 
         <hr className="my-6" />
