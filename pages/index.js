@@ -2,11 +2,41 @@ import React from 'react';
 
 import HeadComponent from '../components/Head';
 import GenerateWallet from '../components/GenerateWallet';
+import GetBalance from '../components/GetBalance';
 import ImportWallet from '../components/ImportWallet';
-import { useState } from 'react';
+
+import { clusterApiUrl, Connection, LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
   const [account, setAccount] = useState(null);
+  const [network, setNetwork] = useState(null);
+
+  const NETWORK = 'devnet';
+
+  useEffect(() => {
+    if (NETWORK === 'devnet') {
+      const network = clusterApiUrl(NETWORK); //fetch url to generate a "Connection" instance
+      setNetwork(network)
+    } else {
+      console.error(`Invalid network: ${NETWORK}. Use 'devnet'.`);
+    }
+  }, []);
+
+  const refreshBalance = async () => {
+    try {
+      const connection = new Connection(network, 'confirmed');
+      const publicKey = account.publicKey;
+
+      let balance = await connection.getBalance(publicKey);
+      balance = balance / LAMPORTS_PER_SOL;
+
+      setBalance(balance);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <HeadComponent />
@@ -30,6 +60,10 @@ export default function Home() {
                 <span>Address: </span>
                 {account.publicKey.toString()}
               </div>
+              <div className='my-6 font-bold'>Network: {NETWORK}</div>
+              {typeof balance === "number" && (
+                <div className="my-6 font-bold">Balance: {balance} SOL</div>
+              )}
             </>
           )}
         </div>
@@ -58,6 +92,7 @@ export default function Home() {
           <h2 className="p-2 border-dotted border-l-4 border-l-indigo-400">
             STEP3: 残高を取得する
           </h2>
+          {account && <GetBalance refreshBalance={refreshBalance} />}
         </div>
 
         <hr className="my-6" />
