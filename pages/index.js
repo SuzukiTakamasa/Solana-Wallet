@@ -4,6 +4,7 @@ import HeadComponent from '../components/Head';
 import GenerateWallet from '../components/GenerateWallet';
 import GetBalance from '../components/GetBalance';
 import ImportWallet from '../components/ImportWallet';
+import Airdrop from '../components/Airdrop';
 
 import { clusterApiUrl, Connection, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { useState, useEffect } from 'react';
@@ -101,6 +102,13 @@ export default function Home() {
           <h2 className="p-2 border-dotted border-l-4 border-l-indigo-400">
             STEP4: エアドロップ機能を実装する
           </h2>
+          {account && (
+            <Airdrop
+              account={account}
+              network={network}
+              refreshBalance={refreshBalance} 
+            />
+          )}
         </div>
 
         <hr className="my-6" />
