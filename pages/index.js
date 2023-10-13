@@ -119,7 +119,7 @@ export default function Home() {
             STEP5: 送金機能を実装する
           </h2>
           {account && (
-            <Transer
+            <Tranfer
               account={account}
               network={network}
               refreshBalance={refreshBalance}
